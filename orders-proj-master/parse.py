@@ -39,6 +39,3 @@ for p in products:
     pr.description = product['description']
     pr.price = product['price']
     pr.save()
-
-
-# print(p)

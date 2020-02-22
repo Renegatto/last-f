@@ -12,5 +12,8 @@ router.register(r'comments', CommentsViewSet, 'comments')
 
 urlpatterns = [
     path('', views.index),
+    path('order', views.order_page),
+    path('orders_list', views.orders_list_page),
+
     path('api/', include(router.urls)),
 ]

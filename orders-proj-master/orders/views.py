@@ -11,7 +11,7 @@ from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
 
 
-from orders.models import Order
+from orders.models import Order, Users
 
 
 def index(request):
@@ -19,7 +19,9 @@ def index(request):
 
 
 def orders_list_page(request):
-    data = {'Orders': Order.objects.all()}
+    data = {'Orders': Order.objects.all(
+    ), 'Users': Users.objects.filter(user_type='MN')}
+
     return render(request, "order_list.html", context=data)
 
 

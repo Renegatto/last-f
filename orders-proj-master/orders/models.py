@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Users(AbstractUser):
-    user_type = models.CharField(max_length=2, choices=[('MN', 'Manager'), ('CL', 'Client')])
+    user_type = models.CharField(max_length=2, default='test', choices=[
+                                 ('MN', 'Manager'), ('CL', 'Client')], verbose_name='Пользователи')
 
 
 class Products(models.Model):

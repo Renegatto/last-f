@@ -11,48 +11,85 @@
     <!-- favicon -->
     <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png" type="image/x-icon">
 
+    <style>
+       body{font-family:italic}
+  </style>
+
 </head>
 
 <body>
   <header>
     <h1 align='center' style='padding:20px'>Список заказов</h1>
+    <hr>
    </header>
+ 
+
+    <input type="text" id="myInput" onkeyup="tableSearch()" placeholder="Поиск..." > 
   {% for i in Orders%}
-    <table class="table">
-    <thead>
+   
+    <table class="table table-bordered" id='myTable'>
+    
+    <thead class="thead-light">
       <tr>
         <th scope="col">номер п/п</th>
-        <th scope="col">номер заказа</th>
+        <th scope="col" id = 'number'>номер заказа</th>
         <th scope="col">клиент</th>
         <th scope="col"> менеджер</th>
         <th scope="col">статус заказа </th>
         <th scope="col">сумма заказа</th>
       </tr>
     </thead>
-
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>{{ i.number }} </td>
-        <td>{{ i.client }}</td>
-        <td>{{ i.manager }}</td>
-        <td> {{ i.order_status }} </td>
-        <td> {{ i.order_price }} </td>
-      
+   
+      {% for mn in Users %}
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>{{ i.number }} </td>
+          <td>{{ i.client }}</td>
+          <td>{{ mn }}</td>
+          <td> {{ i.order_status }} </td>
+          <td> {{ i.order_price }} </td>
+      {% endfor %}
       </tr>
 
     </tbody>
       {% endfor %}
+
   </table>
 
   <center><button type="submit" class="btn btn-primary" onclick="window.location.href = 'http://localhost:8000/order';">Создать заказ</button>
 
 
+
+
+
 </body>
-<!-- vue-->
 
 
-<!-- axios -->
+<script>
+function tableSearch() {
+    var phrase = document.getElementById('myInput');
+    var table = document.getElementById('myTable');
+    var regPhrase = new RegExp(phrase.value, 'i');
+    var flag = false;
+    for (var i = 1; i < table.rows.length; i++) {
+        flag = false;
+        for (var j = table.rows[i].cells.length - 1; j >= 0; j--) {
+            flag = regPhrase.test(table.rows[i].cells[j].innerHTML);
+            if (flag) break;
+        }
+        if (flag) {
+            table.rows[i].style.display = "";
+        } else {
+            table.rows[i].style.display = "none";
+        }
+
+    }
+}
+</script>
+
+
+{% comment %} <!-- axios -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <!--vue -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -70,7 +107,7 @@ new Vue({
       .then(response => (this.info = response));
   }
 });
-</script>
+</script> {% endcomment %}
 
 
 
@@ -83,9 +120,6 @@ new Vue({
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-     <style>
-    body{font-family:italic}
-    </style>
 
 
 </html>

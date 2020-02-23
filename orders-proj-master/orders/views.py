@@ -11,12 +11,16 @@ from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
 
 
+from orders.models import Order
+
+
 def index(request):
     return render(request, "index.html")
 
 
 def orders_list_page(request):
-    return render(request, "order_list.html")
+    data = {'Orders': Order.objects.all()}
+    return render(request, "order_list.html", context=data)
 
 
 def order_page(request):

@@ -14,14 +14,36 @@
 </head>
 
 <body>
+  <header>
+    <h1 align='center' style='padding:20px'>Список заказов</h1>
+   </header>
+  {% for i in Orders%}
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">номер п/п</th>
+        <th scope="col">номер заказа</th>
+        <th scope="col">клиент</th>
+        <th scope="col"> менеджер</th>
+        <th scope="col">статус заказа </th>
+        <th scope="col">сумма заказа</th>
+      </tr>
+    </thead>
 
-  <h1 align='center'>Список заказов</h1>
-  <hr>
-  
-  <div id="app" >
-    {{ info }}
-                                                                             
-  </div>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>{{ i.number }} </td>
+        <td>{{ i.client }}</td>
+        <td>{{ i.manager }}</td>
+        <td> {{ i.order_status }} </td>
+        <td> {{ i.order_price }} </td>
+      
+      </tr>
+
+    </tbody>
+      {% endfor %}
+  </table>
 
   <center><button type="submit" class="btn btn-primary" onclick="window.location.href = 'http://localhost:8000/order';">Создать заказ</button>
 

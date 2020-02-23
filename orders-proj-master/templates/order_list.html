@@ -8,7 +8,7 @@
     <!-- bootstrap css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+    <!-- favicon -->
     <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png" type="image/x-icon">
 
 </head>
@@ -18,8 +18,8 @@
   <h1 align='center'>Список заказов</h1>
   <hr>
   
-  <div id="app"  v-for="i in info">
-    {% comment %} {{ i. order_status }} {% endcomment %}
+  <div id="app" >
+    {{ info }}
                                                                              
   </div>
 
@@ -32,7 +32,7 @@
 
 <!-- axios -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+<!--vue -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
 new Vue({

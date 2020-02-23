@@ -11,16 +11,28 @@
          body{font-family:italic};
     </style>
 
+
+
+   
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    
+
 </head>
+
+<header>
+    <h3 align='center'>Управление статусами</h3>
+</header>
 
 <body>
     <div id = 'buttons' align='center'>
-        <h1 align='center'>Управление статусами</h1>
         <hr>
         <button type="submit" class="btn btn-primary">Статус "Новый"</button>
         <button type="submit" class="btn btn-primary">Статус "Подготовка КП"</button>
         <button type="submit" class="btn btn-primary">Статус "КП"</button>
         <button type="submit" class="btn btn-primary">Статус "Заказ"</button>
+        <hr>
+
 
 
 
@@ -32,23 +44,78 @@
         </tr>
     <div>
 
+    <div class = 'o_fields' >
+       <center> <fieldset>
+            
+            <b><legend style='padding:5px'>Поля заказа</legend></b>
+          
+            <label>Номер заказа:<input type="text" required></label>           
+            <br>
+            <label>Сумма заказа:<input type="text" required></label>
+            <br>
+            <label>Клиент:<input type="text" required></label>
+            <br>
+            <label>Менеджер:<input type="text" required></label>
+            <br>
+            <label for="FormControlSelect1">Статус заказа:</label>
+             <div class="col" width ='300px;'>
+                <select class="form-control" id="FormControlSelect1" >
+                    <option>Новый</option>
+                    <option>Подготовка КП</option>
+                    <option>КП</option>
+                    <option>Заказ</option>
+                </select>
+            </div>  
+            <br>
+            <label>Автор:<input type="text" required></label>
+            <br>
+            <label>Дата/Время создания: <input id="datetimepicker2"/></label>
+            <br>
+            <label>Дата/Время изменения: <input id="datetimepicker1" /></label>
+            <br>
+            <button type="submit" class="btn btn-primary" >Оформить заказ</button>                                                                           
+            <hr>
+            
+        </fieldset> </center> 
+
+
+        <script>
+           $(function() {
+        $('#datetimepicker1').datetimepicker();
+        $('#datetimepicker2').datetimepicker();
+    });
+        </script>
+    </div>
+
+    <style>
+    #FormControlSelect1{
+        width:300px;
+       
+    }
+
+    h3 {
+        margin:10px;
+    }
+    
+    </style>
+
+    <div id = 'list_of_orders'>
+
+
+    </div>
+
+
     <!--vue -->
     <script src="https://unpkg.com/vue"></script>
 
-    <script type="application/javascript">
-
-        const vm = new Vue({
-        el: '#dtable',  
-        data: {
-            dbdate: 'test'
-        }
-        });
-
-    </script>
 
     <!--axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 
  
 </body>

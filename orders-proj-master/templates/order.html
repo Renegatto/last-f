@@ -4,9 +4,55 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Страница заказа</title>
+        <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png" type="image/x-icon">
+     <style>
+         body{font-family:italic};
+    </style>
+
 </head>
 
-<body></body>
+<body>
+    <div id = 'buttons' align='center'>
+        <h1 align='center'>Управление статусами</h1>
+        <hr>
+        <button type="submit" class="btn btn-primary">Статус "Новый"</button>
+        <button type="submit" class="btn btn-primary">Статус "Подготовка КП"</button>
+        <button type="submit" class="btn btn-primary">Статус "КП"</button>
+        <button type="submit" class="btn btn-primary">Статус "Заказ"</button>
 
-</html>
+
+
+    </div>
+
+    <div id='dtable'>
+        <tr>
+            <td>{{ dbdate }}</td>
+        </tr>
+    <div>
+
+    <!--vue -->
+    <script src="https://unpkg.com/vue"></script>
+
+    <script type="application/javascript">
+
+        const vm = new Vue({
+        el: '#dtable',  
+        data: {
+            dbdate: 'test'
+        }
+        });
+
+    </script>
+
+    <!--axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+ 
+</body>
+
+
+   
+</html>                                                                                                             

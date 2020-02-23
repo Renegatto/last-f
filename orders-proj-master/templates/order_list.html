@@ -8,20 +8,19 @@
     <!-- bootstrap css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-              <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png" type="image/x-icon">
-  
+    
+    <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png" type="image/x-icon">
+
 </head>
 
 <body>
 
   <h1 align='center'>Список заказов</h1>
   <hr>
-  <div id = "table">
-    <ul>
-      <li v-for="item in items">
-        {{ item.message }}
-      </li>
-    </ul>
+  
+  <div id="app"  v-for="i in info">
+    {% comment %} {{ i. order_status }} {% endcomment %}
+                                                                             
   </div>
 
   <center><button type="submit" class="btn btn-primary" onclick="window.location.href = 'http://localhost:8000/order';">Создать заказ</button>
@@ -29,44 +28,29 @@
 
 </body>
 <!-- vue-->
+
+
+<!-- axios -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
 <script>
-
-var example1 = new Vue({
-  el: '#table',
-  data: {
-
-    items: [
-     {products: products}
-    ]
+new Vue({
+  el: '#app',
+  data() {
+    return {
+      info: null
+    };
+  },
+  mounted() {
+    axios
+      .get('http://localhost:8000/api/order/?format=json')
+      .then(response => (this.info = response));
   }
-})
+});
 </script>
 
 
-  <!-- axios -->
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
-export default {
-  data() {
-    return { products: [] }
-  },
-  methods: {},
-  computed: {},
-
-  mounted() {
-    axios
-      .get(
-        "localhost:8000/api/products"
-      )
-      .then(response => {
-        this.products = response.data
-        console.log(response.data)
-      })
-  }
-}
-</script> 
 
 
 
@@ -83,3 +67,10 @@ export default {
 
 
 </html>
+
+
+
+
+
+
+

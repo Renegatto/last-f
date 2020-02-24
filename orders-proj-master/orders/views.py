@@ -13,11 +13,14 @@ from django.http import HttpResponseRedirect
 
 from orders.models import Order, Users
 
+from django.contrib.auth.decorators import login_required
+
 
 def index(request):
     return render(request, "index.html")
 
 
+@login_required
 def orders_list_page(request):
     data = {'Orders': Order.objects.all(
     ), 'Users': Users.objects.filter(user_type='MN')}
@@ -25,6 +28,7 @@ def orders_list_page(request):
     return render(request, "order_list.html", context=data)
 
 
+@login_required
 def order_page(request):
     return render(request, "order.html")
 

@@ -12,28 +12,24 @@
     <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet"> 
 
-    <style>
-
-  </style>
 
 </head>
 
 <body>
-  <header>
    
     <header>
-    <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="#">Список заказов</a>
-        {% if user.is_authenticated %}
-     <div class = 'uname'> {{ request.user.username }} </div>
-     <a href='{% url "logout" %}'> Logout</a>
-     {% else %}
-     <a href='{% url "login" %}'> Login</a>
-     {% endif %}
-    </nav>
+      <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="#">Список заказов</a>
+          {% if user.is_authenticated %}
+      <div class = 'uname'> {{ request.user.username }} </div>
+      <a href='{% url "logout" %}'> Logout</a>
+      {% else %}
+      <a href='{% url "login" %}'> Login</a>
+      {% endif %}
+      </nav>
 
     </header>
-   </header>
+
  
 
     <input type="text" id="myInput" onkeyup="tableSearch()" placeholder="Поиск..."  style='margin:40px'> 

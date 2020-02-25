@@ -13,10 +13,7 @@
 
 
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-
+   
 
 </head>
 
@@ -78,15 +75,26 @@
             <br>
             <label>Дата/Время изменения: <input id="datetimepicker1"/></label>
             <br>
-            <input value="Отправить" type="button" id="sendForm" action="http://localhost:8000/api/order/"
-                   method="POST"></button>
+            <input value="Отправить" type="submit" id="sendForm" action="http://localhost:8000/api/order/"
+                   method="POST">
             <hr>
 
         </fieldset>
     </center>
 
 
-    <script>
+ <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+
+
+    <script type='text/javascript'>
+
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+            $('#datetimepicker2').datetimepicker();
+        });
+
 
         $(document).ready(function () {
             $("#sendForm").click(function (event) {
@@ -99,52 +107,56 @@
                     'datetimepicker2': $('#datetimepicker2').val(),
                     'datetimepicker1': $('#datetimepicker1').val(),
                 };
+    
+            
                 $.ajax({
                     type: 'POST',
                     url: 'http://localhost:8000/api/order/',
                     data: data,
-                    success: success,
-                    dataType: dataType
-                });
-                alert(data);
+                    success: alert('Данные отправлены!')
+    
+                })
             });
+        
+        
         });
+     
 
-        $(function () {
-            $('#datetimepicker1').datetimepicker();
-            $('#datetimepicker2').datetimepicker();
-        });
-
+  
     </script>
 </div>
 
-
-<div class = 'order_position'>
-    <h3 align='center'>Список товарных позиций</h3>
-
-</div>
-
-<style>
-    #FormControlSelect1 {
-        width: 300px;
-
-    }
-
-    h3 {
-        margin: 10px;
-    }
-
-
-</style>
-
-<div id='list_of_orders'>
+<h3 align='center'>Список товарных позиций</h3>
+<div id='list_of_orders'  v-for="list_of_orders in info">
+    
+    {{ list_of_orders }}
 
 
 </div>
+
+
 
 
 <!--vue -->
 <script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+var initial = new Vue({
+    el:"#list_of_orders",
+    data() {
+    return {
+      info: null
+    };
+  },
+      mounted() {
+    axios
+      .get('http://localhost:8000/api/order/?format=json')
+      .then(response => (this.info = response.data)); 
+  }
+});
+
+</script>
+
 
 
 <!--axios -->
@@ -159,5 +171,18 @@
 
 </body>
 
+
+<style>
+    #FormControlSelect1 {
+        width: 300px;
+
+    }
+
+    h3 {
+        margin: 10px;
+    }
+
+
+</style>
 
 </html>

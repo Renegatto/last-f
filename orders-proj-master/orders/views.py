@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.shortcuts import render
+from django.contrib.auth.views import LoginView
+from django.shortcuts import render, redirect, resolve_url
 from django.http import HttpResponse
 from orders.forms import LoginForm
 
@@ -9,7 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
-
 
 from orders.models import Order, Users
 
@@ -39,5 +39,6 @@ def user_login(request):
     if request.method == "POST":
         userform = LoginForm(request.POST)
         if userform.is_valid():
-            return render(request, "order.html", {"form": userform})
-    return render(request, "login.html", {"form": userform})
+            return redirect('order_page')
+            # return render(request, "order.html", {"form": userform})
+    return render(request, "registration/login.html", {"form": userform})

@@ -2,133 +2,162 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Страница заказа</title>
-        <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet"> 
+    <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png"
+          type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
 
-   
-    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    
+
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+
 
 </head>
 
 
-    <header>
+<header>
     <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="#">Страница заказа</a>
-    {% if user.is_authenticated %}
-     <div class = 'uname'> {{ request.user.username }} </div>
-     <a href='{% url "logout" %}'> Logout</a>
-     {% else %}
-     <a href='{% url "login" %}'> Login</a>
-     {% endif %}
+        <a class="navbar-brand" href="#">Страница заказа</a>
+        {% if user.is_authenticated %}
+            <div class='uname'> {{ request.user.username }} </div>
+            <a href='{% url "logout" %}'> Logout</a>
+        {% else %}
+            <a href='{% url "login" %}'> Login</a>
+        {% endif %}
     </nav>
 
-    </header>
+</header>
 
 <body>
-    <div id = 'buttons' align='center' style ='margin:40px;'>
-       
-        <button type="submit" class="btn btn-primary">Статус "Новый"</button>
-        <button type="submit" class="btn btn-primary">Статус "Подготовка КП"</button>
-        <button type="submit" class="btn btn-primary">Статус "КП"</button>
-        <button type="submit" class="btn btn-primary">Статус "Заказ"</button>
-        
+<div id='buttons' align='center' style='margin:40px;'>
+
+    <button type="submit" class="btn btn-primary">Статус "Новый"</button>
+    <button type="submit" class="btn btn-primary">Статус "Подготовка КП"</button>
+    <button type="submit" class="btn btn-primary">Статус "КП"</button>
+    <button type="submit" class="btn btn-primary">Статус "Заказ"</button>
 
 
+</div>
 
 
-    </div>
+<div class='o_fields'>
+    <center>
+        <fieldset>
 
- 
+            <b>
+                <legend style='padding:5px'>Поля заказа</legend>
+            </b>
 
-    <div class = 'o_fields' >
-       <center> <fieldset>
-            
-            <b><legend style='padding:5px'>Поля заказа</legend></b>
-          
-            <label>Номер заказа:<input type="text" required></label>           
+            <label>Номер заказа:<input type="text" required id="order_number"></label>
             <br>
-            <label>Сумма заказа:<input type="text" required></label>
+            <label>Сумма заказа:<input type="text" required id="price_of_order"></label>
             <br>
-            <label>Клиент:<input type="text" required></label>
+            <label>Клиент:<input type="text" required id="order_client"></label>
             <br>
-            <label>Менеджер:<input type="text" required></label>
+            <label>Менеджер:<input type="text" required id="order_manager"></label>
             <br>
-            <label for="FormControlSelect1">Статус заказа:</label>
-             <div class="col" width ='300px;'>
-                <select class="form-control" id="FormControlSelect1" >
+            <label for="FormControlSelect1" id='order_status_select'>Статус заказа:</label>
+            <div class="col" width='300px;'>
+                <select class="form-control" id="FormControlSelect1">
                     <option>Новый</option>
                     <option>Подготовка КП</option>
                     <option>КП</option>
                     <option>Заказ</option>
                 </select>
-            </div>  
+            </div>
             <br>
-            <label>Автор:<input type="text" required></label>
+            <label>Автор:<input type="text" required id="order_author"></label>
             <br>
             <label>Дата/Время создания: <input id="datetimepicker2"/></label>
             <br>
-            <label>Дата/Время изменения: <input id="datetimepicker1" /></label>
+            <label>Дата/Время изменения: <input id="datetimepicker1"/></label>
             <br>
-            <input type="submit" action= "http://localhost:8000/api/order/" method= "POST" ></button>                                                                           
+            <input value="Отправить" type="button" id="sendForm" action="http://localhost:8000/api/order/"
+                   method="POST"></button>
             <hr>
-            
-        </fieldset> </center> 
+
+        </fieldset>
+    </center>
 
 
-        <script>
-           $(function() {
-        $('#datetimepicker1').datetimepicker();
-        $('#datetimepicker2').datetimepicker();
-    });
-        </script>
-    </div>
+    <script>
+
+        $(document).ready(function () {
+            $("#sendForm").click(function (event) {
+                let data = {
+                    'order_number': $('#order_number').val(),
+                    'price_of_order': $('#price_of_order').val(),
+                    'order_client': $('#order_client').val(),
+                    'order_status_select': $('#order_status_select').val(),
+                    'order_author': $('#order_author').val(),
+                    'datetimepicker2': $('#datetimepicker2').val(),
+                    'datetimepicker1': $('#datetimepicker1').val(),
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8000/api/order/',
+                    data: data,
+                    success: success,
+                    dataType: dataType
+                });
+                alert(data);
+            });
+        });
+
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+            $('#datetimepicker2').datetimepicker();
+        });
+
+    </script>
+</div>
 
 
-    <div>
-        <h3 align='center'>Список товарных позиций</h3>
+<div class = 'order_position'>
+    <h3 align='center'>Список товарных позиций</h3>
 
-    </div>
+</div>
 
-    <style>
-    #FormControlSelect1{
-        width:300px;
-       
+<style>
+    #FormControlSelect1 {
+        width: 300px;
+
     }
 
     h3 {
-        margin:10px;
+        margin: 10px;
     }
 
-    
-    </style>
 
-    <div id = 'list_of_orders'>
+</style>
 
-
-    </div>
+<div id='list_of_orders'>
 
 
-    <!--vue -->
-    <script src="https://unpkg.com/vue"></script>
+</div>
 
 
-    <!--axios -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!--vue -->
+<script src="https://unpkg.com/vue"></script>
 
 
+<!--axios -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 
- 
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+
+
 </body>
 
 
-   
-</html>                                                                                                             
+</html>

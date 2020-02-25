@@ -1,5 +1,7 @@
+from django.conf.urls import url
 from django.urls import path, include
 from orders import views
+from orders.views import user_login, LoginView
 from orders.viewsets import UsersViewSet, ProductsViewSet, OrderViewSet, CommentsViewSet
 
 from rest_framework import routers
@@ -14,13 +16,14 @@ router.register(r'comments', CommentsViewSet, 'comments')
 
 urlpatterns = [
     path('', views.index),
-    path('order', views.order_page),
+    path('order', views.order_page, name='order_page'),
     path('orders_list', views.orders_list_page, name='orders'),
 
-    path('login', auth_views.LoginView.as_view(), name='login'),
+    url(r'^login', auth_views.LoginView.as_view(), {'template_name': 'login.html'}, name='login'),
+    # path('login', user_login, name='login'),
+    # path('login', user_login, name='login'),
+    # path('login', LoginView.as_view(), name='login'),
     path('logout', auth_views.LogoutView.as_view(), name='logout'),
-
-    path('lg', views.user_login),
 
     path('api/', include(router.urls)),
 ]

@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect, resolve_url
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+
 from orders.forms import LoginForm
 
-from django.contrib.auth import authenticate, login
+
 
 from django.views.decorators.csrf import csrf_exempt
 

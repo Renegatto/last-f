@@ -2,133 +2,102 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Список заказов</title>
     <!-- bootstrap css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- favicon -->
-    <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet"> 
+    <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png"
+          type="image/x-icon">
 
 
 </head>
 
 <body>
-   
-    <header>
-      <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="#">Список заказов</a>
-          {% if user.is_authenticated %}
-      <div class = 'uname'> {{ request.user.username }} </div>
-      <a href='{% url "logout" %}'> Logout</a>
-      {% else %}
-      <a href='{% url "login" %}'> Login</a>
-      {% endif %}
-      </nav>
+<header>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Список заказов</a>
+        {% if user.is_authenticated %}
+            <div class='uname'> {{ request.user.username }} </div>
+            <a href='{% url "logout" %}'> Logout</a>
+        {% else %}
+            <a href='{% url "login" %}'> Login</a>
+        {% endif %}
+    </nav>
+</header>
 
-    </header>
 
- 
+<div id="app">
 
-    <input type="text" id="myInput" onkeyup="tableSearch()" placeholder="Поиск..."  style='margin:40px'> 
-  
-    <table class="table table-bordered" id='myTable'>
-    
-    <thead class="thead-light">
-    
-      <tr>
-        <th scope="col">номер п/п</th>
-        <th scope="col">номер заказа</th>
-        <th scope="col">клиент</th>
-        <th scope="col"> менеджер</th>
-        <th scope="col">статус заказа </th>
-        <th scope="col">сумма заказа</th>
-      </tr>
-    </thead>
-       {% for i in Orders%}
-       {% for mn in Users %}
-      <tbody>
+    <table class="table table-bordered">
+        <thead>
         <tr>
-          <th scope="row">1</th>
-          <td>{{ i.number }} </td>
-          <td>{{ i.client }}</td>
-          <td>{{ mn }}</td>
-          <td> {{ i.order_status }} </td>
-          <td> {{ i.order_price }} </td>
-      </tr>
-      {% endfor %}
-       {% endfor %}
-    </tbody>
-     
+            <th scope="col">номер п/п</th>
+            <th scope="col">номер заказа</th>
+            <th scope="col">клиент</th>
+            <th scope="col">менеджер</th>
+            <th scope="col">статус заказа</th>
+            <th scope="col">сумма заказа</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="i in orders_data.data">
+            <th scope="row">1</th>
+            <td>{% verbatim %}{{ i.id }}{% endverbatim %}</td>
+            <td>{% verbatim %}{{ i.client }}{% endverbatim %}</td>
+            <td>{% verbatim %}{{ i.author }}{% endverbatim %}</td>
+            <td>{% verbatim %}{{ i.order_status }}{% endverbatim %}</td>
+            <td>{% verbatim %}{{ i.order_price }}{% endverbatim %}</td>
+        </tr>
 
-  </table>
+        </tbody>
+    </table>
+    <button v-on:click="redirect" class="btn btn-primary">Создать заказ</button>
 
-  <center><button type="submit" class="btn btn-primary" onclick="window.location.href = 'http://localhost:8000/order';">Создать заказ</button>
+</div>
 
 
+<!-- добавление vue -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
 
+    var app = new Vue({
+        el: '#app',
+        data: {
+            orders_data: []
+        },
+        methods: {
+            redirect: function (onclick) {
+                window.location.href = 'http://localhost:8000/order'
+            }
+
+        },
+        mounted() {
+            axios
+                .get('http://localhost:8000/api/order/?format=json')
+                .then(response => (this.orders_data = response));
+
+        }
+    });
+
+</script>
 
 
 </body>
 
-
-<script>
-function tableSearch() {
-    var phrase = document.getElementById('myInput');
-    var table = document.getElementById('myTable');
-    var regPhrase = new RegExp(phrase.value, 'i');
-    var flag = false;
-    for (var i = 1; i < table.rows.length; i++) {
-        flag = false;
-        for (var j = table.rows[i].cells.length - 1; j >= 0; j--) {
-            flag = regPhrase.test(table.rows[i].cells[j].innerHTML);
-            if (flag) break;
-        }
-        if (flag) {
-            table.rows[i].style.display = "";
-        } else {
-            table.rows[i].style.display = "none";
-        }
-
+<style>
+    #app {
+        margin: 100px;
+        padding: 100px;
     }
-}
-</script>
 
-
-{% comment %} <!-- axios -->
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<!--vue -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script>
-new Vue({
-  el: '#app',
-  data() {
-    return {
-      info: null
-    };
-  },
-  mounted() {
-    axios
-      .get('http://localhost:8000/api/order/?format=json')
-      .then(response => (this.info = response));
-  }
-});
-</script> {% endcomment %}
-
-
-
-
-
-
-
-<!-- bootsrap js -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-
+    .btn {
+        margin-top: 100px;
+    }
+</style>
 
 </html>
 

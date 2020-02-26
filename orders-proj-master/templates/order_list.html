@@ -5,32 +5,33 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Список заказов</title>
-    <!-- bootstrap css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- favicon -->
     <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png"
           type="image/x-icon">
-
-
 </head>
 
 <body>
+
 <header>
+
+
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">Список заказов</a>
+        <a class="navbar-brand" href="#">Страница заказа</a>
+
         {% if user.is_authenticated %}
-            <div class='uname'> {{ request.user.username }} </div>
+            <div class='uname'>{{ request.user.username }} |</div>
             <a href='{% url "logout" %}'> Logout</a>
         {% else %}
             <a href='{% url "login" %}'> Login</a>
         {% endif %}
+
     </nav>
+
 </header>
 
-
 <div id="app">
-
+    <input type="text" v-model="filter" placeholder="Поиск...">
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -39,11 +40,11 @@
             <th scope="col">клиент</th>
             <th scope="col">менеджер</th>
             <th scope="col">статус заказа</th>
-            <th scope="col">сумма заказа</th>
+            <th scope="col">сумма заказа(usd)</th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="i in orders_data.data">
+        <tr v-for="i in sortOptions">
             <th scope="row">1</th>
             <td>{% verbatim %}{{ i.id }}{% endverbatim %}</td>
             <td>{% verbatim %}{{ i.client }}{% endverbatim %}</td>
@@ -55,37 +56,41 @@
         </tbody>
     </table>
     <button v-on:click="redirect" class="btn btn-primary">Создать заказ</button>
-
 </div>
 
 
-<!-- добавление vue -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="text/javascript">
-
     var app = new Vue({
         el: '#app',
         data: {
-            orders_data: []
+            orders_data: [],
+            filter: ''
         },
         methods: {
             redirect: function (onclick) {
                 window.location.href = 'http://localhost:8000/order'
             }
-
+        },
+        computed: {
+            sortOptions() {
+                if (this.filter !== '') {
+                    return this.orders_data.filter(data => data.author.toLowerCase().includes(this.filter));
+                } else {
+                    return this.orders_data;
+                }
+            }
         },
         mounted() {
             axios
                 .get('http://localhost:8000/api/order/?format=json')
-                .then(response => (this.orders_data = response));
+                .then(response => (this.orders_data = response.data));
 
         }
     });
 
 </script>
-
-
 </body>
 
 <style>
@@ -96,6 +101,10 @@
 
     .btn {
         margin-top: 100px;
+    }
+
+    .uname {
+        margin-left: auto;
     }
 </style>
 

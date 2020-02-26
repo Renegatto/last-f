@@ -4,8 +4,6 @@ from django.shortcuts import render, redirect
 
 from orders.forms import LoginForm
 
-
-
 from django.views.decorators.csrf import csrf_exempt
 
 from django.views.generic.edit import FormView

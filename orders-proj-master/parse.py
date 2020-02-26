@@ -1,13 +1,13 @@
+from orders.models import Products
+import django
 from bs4 import BeautifulSoup
 import requests
 import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 
-import django
 
 django.setup()
-from orders.models import Products
 
 products = []
 product = {}
@@ -27,8 +27,9 @@ elems = soup.find_all("div", {'class': 'prod prod--toggle'})
 for elem in elems:
     product['image'] = elem.find("img", {'class': 'prod__img'})['src']
     product['name'] = elem.find("header", {'class': 'prod__head'}).get_text()
-    product['price']  = elem.find("a", {'class': 'money__val'}).get_text()
-    product['description'] = elem.find("p", {'class': 'prod__descr'}).get_text()
+    product['price'] = elem.find("a", {'class': 'money__val'}).get_text()
+    product['description'] = elem.find(
+        "p", {'class': 'prod__descr'}).get_text()
     products.append(product)
 
 

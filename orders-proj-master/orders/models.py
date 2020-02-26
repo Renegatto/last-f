@@ -2,6 +2,21 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
+NEW = 'НОВЫЙ'
+PREP_KP = 'ПОДГОТОВКА_КП'
+KP = 'КП'
+ORDER = 'ЗАКАЗ'
+UNKNOWN = 'UNKNOWN'
+
+STATUS_CHOICES = (
+    (NEW, 'НОВЫЙ'),
+    (PREP_KP, 'ПОДГОТОВКА_КП'),
+    (KP, 'КП'),
+    (ORDER, 'ЗАКАЗ'),
+    (UNKNOWN, 'UNKNOWN'),
+)
+
+
 class Users(AbstractUser):
     user_type = models.CharField(max_length=2, default='test', choices=[
         ('MN', 'Manager'), ('CL', 'Client')], verbose_name='Пользователи')
@@ -36,6 +51,9 @@ class Order(models.Model):
     date_and_time_of_change_of_order = models.DateTimeField(
         auto_now_add=False, auto_now=True, verbose_name='Обновлён')
 
+    order_status = models.CharField(
+        max_length=50, default=UNKNOWN, choices=STATUS_CHOICES)
+
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
@@ -44,7 +62,6 @@ class Order(models.Model):
 class Comments(models.Model):
     order = models.OneToOneField(
         Order, on_delete=models.CASCADE, primary_key=True)
-    # author = models.ForeignKey(Users, on_delete=models.CASCADE)
 
     author = models.OneToOneField(
         Users, on_delete=models.CASCADE)
@@ -54,30 +71,3 @@ class Comments(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
-
-
-class StatusOfOrder(models.Model):
-    NEW = 'НОВЫЙ'
-    PREP_KP = 'ПОДГОТОВКА_КП'
-    KP = 'КП'
-    ORDER = 'ЗАКАЗ'
-    UNKNOWN = 'UNKNOWN'
-
-    STATUS_CHOICES = (
-        (NEW, 'НОВЫЙ'),
-        (PREP_KP, 'ПОДГОТОВКА_КП'),
-        (KP, 'КП'),
-        (ORDER, 'ЗАКАЗ'),
-        (UNKNOWN, 'UNKNOWN'),
-    )
-
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES,
-                              default='UNKNOWN', editable=False)
-
-
-    class Meta:
-        verbose_name = 'Статус заказа'
-        verbose_name_plural = 'Статусы заказа'
-
-
-

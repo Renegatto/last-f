@@ -23,10 +23,10 @@
 
 
 <header>
-   <nav class="navbar navbar-light" style="background-color: #8ee28c;">
+    <nav class="navbar navbar-light" style="background-color: #8ee28c;">
         <a class="navbar-brand" href="#">Система сопровождения заказов</a>
         {% if user.is_authenticated %}
-            <div class='uname'>{{ request.user.username }}, </div>
+            <div class='uname'>{{ request.user.username }},</div>
             <a href='{% url "logout" %}'> Logout</a>
         {% else %}
             <a href='{% url "login" %}'> Login</a>
@@ -58,42 +58,42 @@
 
 <div id='Order_list'>
 
-        <br>
-        <center><h2 style="color:#8ee28c;"><b>Список товарных позиций</b></h2></center>
-        <center><label for='search'>Поиск по товарам:</label></center>
-        <center><input type="text" v-model="filter" placeholder="Название товара..." id='search'></center>
-        <center><img :src="image_src" style="margin: 50px;"></center>
-        <br>
-        <hr>
+    <br>
+    <center><h2 style="color:#8ee28c;"><b>Список товарных позиций</b></h2></center>
+    <center><label for='search'>Поиск по товарам:</label></center>
+    <center><input type="text" v-model="filter" placeholder="Название товара..." id='search'></center>
+    <center><img :src="image_src" style="margin: 50px;"></center>
+    <center><p >  {% verbatim %} {{ description }}{% endverbatim %} </p></center>
+    <center><p >  {% verbatim %} {{ price }}{% endverbatim %} </p></center>
+    <br>
+    <hr>
 
+    <ul v-for="(product, index) in sortOptions" style="width: 500px;">
+        <a href="#" class="list-group-item list-group-item-action" v-on:click="showProduct(index)">
+            {% verbatim %}{{ product.name }} {% endverbatim %}</a>
 
+    </ul>
 
-        <ul v-for="(product, index) in sortOptions" style="width: 500px;">
-            <a href="#" class="list-group-item list-group-item-action" v-on:click="showProduct(index)">
-                {% verbatim %}{{ product.name }} {% endverbatim %}</a>
+    <hr>
 
-        </ul>
-
-        <hr>
-
-        <center>
-            <button type="submit" class="btn btn-success"
-                    onclick="window.location.href = 'http://localhost:8000/login';">
-                Авторизоваться
-            </button>
-        </center>
-        <br>
+    <center>
+        <button type="submit" class="btn btn-success"
+                onclick="window.location.href = 'http://localhost:8000/login';">
+            Авторизоваться
+        </button>
+    </center>
+    <br>
 
 
 </div>
-
 </body>
 
 
 <style>
-    body{
-        background-color: #f8f9fa!important;
+    body {
+        background-color: #f8f9fa !important;
     }
+
     b {
         color: #8ee28c;
     }
@@ -128,8 +128,6 @@
     }
 
 
-
-
 </style>
 
 
@@ -142,7 +140,9 @@
         data: {
             products_data: [],
             filter: '',
-            image_src: ''
+            image_src: '',
+            description: '',
+            price: '',
         },
         methods: {
             products_detailed: function (event) {
@@ -150,6 +150,8 @@
             },
             showProduct: function (index) {
                 this.image_src = this.products_data[index]['image'];
+                this.description = this.products_data[index]['description'];
+                this.price = this.products_data[index]['price'];
                 console.log(index);
             }
         },

@@ -37,6 +37,5 @@ def user_login(request):
     if request.method == "POST":
         userform = LoginForm(request.POST)
         if userform.is_valid():
-            return redirect('order_page')
-            # return render(request, "order.html", {"form": userform})
+            return redirect('orders')
     return render(request, "registration/login.html", {"form": userform})

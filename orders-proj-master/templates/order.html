@@ -17,10 +17,7 @@
 
 </head>
 
-
 <header>
-
-
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="#">Страница заказа</a>
 
@@ -36,16 +33,6 @@
 </header>
 
 <body>
-<div id='buttons' align='center' style='margin:40px;'>
-    <hr>
-    <button type="submit" class="btn btn-primary">Статус "Новый"</button>
-    <button type="submit" class="btn btn-primary">Статус "Подготовка КП"</button>
-    <button type="submit" class="btn btn-primary">Статус "КП"</button>
-    <button type="submit" class="btn btn-primary">Статус "Заказ"</button>
-    <hr>
-</div>
-
-
 <center>
     <div class='o_fields' align="center">
         <fieldset>
@@ -126,40 +113,6 @@
     </div>
 </center>
 
-
-<div id='Order_list'>
-    <h2>Список товарных позиций</h2>
-    <hr>
-    <ul v-for="i in products_data">
-        <a href="#" class="list-group-item list-group-item-action" > {% verbatim %}{{ i.name }} {% endverbatim %}</a>
-    </ul>
-
-    </ul>
-
-
-</div>
-
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-<script>
-    var app = new Vue({
-        el: '#Order_list',
-        data: {
-            products_data: [],
-            filter: ''
-        },
-        mounted() {
-            axios
-                .get('http://localhost:8000/api/products/?format=json')
-                .then(response => (this.products_data = response.data));
-
-        }
-    });
-
-
-</script>
-
 </body>
 
 <style>
@@ -180,15 +133,6 @@
 
     label {
         margin: 10px;
-    }
-
-    #Order_list {
-        margin: 100px;
-
-    }
-
-    .uname {
-        margin-left: auto;
     }
 
 

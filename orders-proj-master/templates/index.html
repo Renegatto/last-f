@@ -21,11 +21,17 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="https://github.com/SashaSavin/last-f"><i class="fa fa-github fa-2x"
-                                                                           aria-hidden="true"></i>
 
-    </a>
+<header>
+
+    <nav class="navbar navbar-light bg-light">
+        {% if user.is_authenticated %}
+            <div class='uname'>{{ request.user.username }} |</div>
+            <a href='{% url "logout" %}'> Logout</a>
+        {% else %}
+            <a href='{% url "login" %}'> Login</a>
+        {% endif %}
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -45,6 +51,14 @@
         </ul>
 
 
+    </nav>
+
+</header>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
     </div>
 </nav>
 
@@ -58,20 +72,15 @@
 </div>
 
 
-<footer>
-    <div class="container">
-        <hr/>
-        <div class="text-center center-block">
-            <p class="txt-railway">- Training-project -</p>
-            <br/>
-            <a href="https://www.facebook.com/bootsnipp"><i class="fa fa-facebook-square fa-3x social"></i></a>
-            <a href="https://twitter.com/bootsnipp"><i class="fa fa-twitter-square fa-3x social"></i></a>
-            <a href="https://plus.google.com/+Bootsnipp-page"><i class="fa fa-google-plus-square fa-3x social"></i></a>
-            <a href="mailto:bootsnipp@gmail.com"><i class="fa fa-envelope-square fa-3x social"></i></a>
-        </div>
-        <hr/>
-    </div>
-</footer>
+<div id='Order_list'>
+    <h2>Список товарных позиций</h2>
+    <hr>
+    <ul v-for="i in products_data">
+        <a href="#" class="list-group-item list-group-item-action"> {% verbatim %}{{ i.name }} {% endverbatim %}</a>
+    </ul>
+
+
+</div>
 
 
 </body>
@@ -79,7 +88,8 @@
 
 <style>
     .cblock {
-        margin: 150px;
+        margin: 30px;
+        padding: 30px;
     }
 
     b {
@@ -111,13 +121,36 @@
         width: 100%;
     }
 
-    footer {
-        display: flex;
-        flex-direction: column;
+    .uname {
+        margin-left: auto;
     }
 
 
 </style>
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+    var app = new Vue({
+        el: '#Order_list',
+        data: {
+            products_data: [],
+            filter: '',
+
+        },
+
+        mounted() {
+            axios
+                .get('http://localhost:8000/api/products/?format=json')
+                .then(response => (this.products_data = response.data));
+
+        }
+    });
+
+
+</script>
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

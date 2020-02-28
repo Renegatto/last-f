@@ -1,3 +1,4 @@
+from core import settings
 from orders.models import Products
 import django
 from bs4 import BeautifulSoup
@@ -31,9 +32,10 @@ for elem in elems:
     product['description'] = elem.find(
         "p", {'class': 'prod__descr'}).get_text()
     products.append(product)
+    # print(products[0])
 
 
-for p in products:
+for p in products[0]:
     pr = Products.objects.create()
     pr.name = product['name']
     pr.image = product['image']

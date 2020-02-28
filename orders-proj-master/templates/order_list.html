@@ -30,7 +30,19 @@
 
 </header>
 
+
+
 <div id="app">
+
+    <div id='buttons' align='center' style='margin:20px;'>
+
+        <button type="submit" class="btn btn-primary">Новый</button>
+        <button type="submit" class="btn btn-primary">Подготовка КП</button>
+        <button type="submit" class="btn btn-primary">КП</button>
+        <button type="submit" class="btn btn-primary">Заказ</button>
+    </div>
+
+
     <input type="text" v-model="filter" placeholder="Поиск...">
     <table class="table table-bordered">
         <thead>
@@ -70,7 +82,7 @@
         },
         methods: {
             redirect: function (onclick) {
-                window.location.href = 'http://localhost:8000/order'
+                window.location.href = 'http://localhost:8000/orders_list/order'
             }
         },
         computed: {
@@ -95,8 +107,8 @@
 
 <style>
     #app {
-        margin: 100px;
-        padding: 100px;
+        margin: 30px;
+        padding: 30px;
     }
 
     .btn {
@@ -106,6 +118,8 @@
     .uname {
         margin-left: auto;
     }
+
+
 </style>
 
 </html>

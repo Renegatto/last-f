@@ -61,28 +61,35 @@
     <br>
     <center><h2 style="color:#8ee28c;"><b>Список товарных позиций</b></h2></center>
     <center><label for='search'>Поиск по товарам:</label></center>
-    <center><input type="text" v-model="filter" placeholder="Название товара..." id='search'></center>
-    <center><img :src="image_src" style="margin: 50px;"></center>
-    <center><p >  {% verbatim %} {{ description }}{% endverbatim %} </p></center>
-    <center><p >  {% verbatim %} {{ price }}{% endverbatim %} </p></center>
-    <br>
-    <hr>
+    <center><input type="text" v-model="filter" placeholder="Название товара..." id='search'>
+        <center>
+            <br>
+            <button type="submit" v-on:click="redirect" class="btn btn-success">
+                Создать заказ
+            </button>
+        </center>
+        <br>
+        <center><img :src="image_src" style="margin: 50px;"></center>
+        <center><p>  {% verbatim %} {{ description }}{% endverbatim %} </p></center>
+        <center><p>  {% verbatim %} {{ price }}{% endverbatim %} </p></center>
+        <br>
+        <hr>
 
-    <ul v-for="(product, index) in sortOptions" style="width: 500px;">
-        <a href="#" class="list-group-item list-group-item-action" v-on:click="showProduct(index)">
-            {% verbatim %}{{ product.name }} {% endverbatim %}</a>
+        <ul v-for="(product, index) in sortOptions" style="width: 500px; ">
+            <a href="#" class="list-group-item list-group-item-action" v-on:click="showProduct(index)">
+                {% verbatim %}{{ product.name }} {% endverbatim %}</a>
 
-    </ul>
+        </ul>
 
-    <hr>
+        <hr>
 
-    <center>
-        <button type="submit" class="btn btn-success"
-                onclick="window.location.href = 'http://localhost:8000/login';">
-            Авторизоваться
-        </button>
-    </center>
-    <br>
+        <center>
+            <button type="submit" class="btn btn-success"
+                    onclick="window.location.href = 'http://localhost:8000/login';">
+                Авторизоваться
+            </button>
+        </center>
+        <br>
 
 
 </div>
@@ -127,6 +134,10 @@
 
     }
 
+    ul {
+
+    }
+
 
 </style>
 
@@ -153,6 +164,9 @@
                 this.description = this.products_data[index]['description'];
                 this.price = this.products_data[index]['price'];
                 console.log(index);
+            },
+            redirect: function (onclick) {
+                window.location.href = 'http://localhost:8000/orders_list/order'
             }
         },
         computed: {

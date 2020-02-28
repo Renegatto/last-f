@@ -35,10 +35,15 @@
 
     <div id='buttons' align='center' style='margin:20px;'>
 
-        <button type="submit" class="btn btn-success">Новый</button>
+        <button type="submit"  class="btn btn-success"
+                :class="{ 'btn-danger': button_toggle }"
+                v-on:click="button_toggle=!button_toggle">Новый</button>
+
+
         <button type="submit" class="btn btn-success">Подготовка КП</button>
         <button type="submit" class="btn btn-success">КП</button>
         <button type="submit" class="btn btn-success">Заказ</button>
+
     </div>
 
 
@@ -66,7 +71,7 @@
 
         </tbody>
     </table>
-    <button v-on:click="redirect" class="btn btn-success">Создать заказ</button>
+
 </div>
 
 
@@ -77,13 +82,10 @@
         el: '#app',
         data: {
             orders_data: [],
-            filter: ''
+            filter: '',
+            button_toggle: false,
         },
-        methods: {
-            redirect: function (onclick) {
-                window.location.href = 'http://localhost:8000/orders_list/order'
-            }
-        },
+
         computed: {
             sortOptions() {
                 if (this.filter !== '') {

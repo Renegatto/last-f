@@ -19,10 +19,10 @@
 
 <header>
     <nav class="navbar navbar-light" style="background-color: #8ee28c;">
-        <a class="navbar-brand" href="#" >Страница заказа</a>
+        <a class="navbar-brand" href="#">Страница заказа</a>
 
         {% if user.is_authenticated %}
-            <div class='uname' style=" margin-left: auto;">{{ request.user.username }}, </div>
+            <div class='uname' style=" margin-left: auto;">{{ request.user.username }},</div>
             <a href='{% url "logout" %}'> Logout</a>
         {% else %}
             <a href='{% url "login" %}'> Login</a>
@@ -34,7 +34,7 @@
 
 <body>
 <center>
-    <div class='o_fields' align="center" >
+    <div class='o_fields' align="center">
         <fieldset>
             <b>
                 <legend style='padding:5px; margin:5px; color: #8ee28c;'>Поля заказа</legend>
@@ -49,7 +49,7 @@
             <label>Менеджер:<input type="text" required id="order_manager"></label>
             <br>
             <label for="FormControlSelect1" id='order_status_select'>Статус заказа:</label>
-            <div class="col" width='300px;'>
+            <div class="col" width='250px;'>
                 <select class="form-control" id="FormControlSelect1">
                     <option>Новый</option>
                     <option>Подготовка КП</option>
@@ -57,6 +57,8 @@
                     <option>Заказ</option>
                 </select>
             </div>
+
+
             <br>
             <label>Автор:<input type="text" required id="order_author"></label>
             <br>
@@ -68,7 +70,9 @@
                    action="http://localhost:8000/api/order/"
                    method="POST">
             <hr>
+
         </fieldset>
+
 
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
                 integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -113,6 +117,7 @@
     </div>
 </center>
 
+
 </body>
 
 <style>
@@ -136,11 +141,12 @@
 
     }
 
-      body{
-        background-color: #f8f9fa!important;
+    body {
+        background-color: #f8f9fa !important;
     }
 
 
 </style>
+
 
 </html>

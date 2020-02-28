@@ -11,8 +11,8 @@
 </head>
 
 <header>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#" style="color: #8ee28c;">Авторизация</a>
+    <nav class="navbar navbar-light" style="background-color: #8ee28c;">
+        <a class="navbar-brand" href="#" >Авторизация</a>
     </nav>
 </header>
 
@@ -25,7 +25,7 @@
     {{ form.as_p }}
     {% csrf_token %}
     <center>
-    <button type="submit" class="btn btn-primary" data-loading-text=«Загрузка…»>Отправить</button>
+    <button type="submit" class="btn btn-success" data-loading-text=«Загрузка…»>Отправить</button>
     {% if login_error %} # если вышла ошибка или такой пользователь не существует
         <label class=»error»>{{ login_error }}</label>
 
@@ -39,6 +39,10 @@
 <style type="text/css">
     div {
         margin: 150px;
+    }
+
+      body{
+        background-color: #f8f9fa!important;
     }
 </style>
 

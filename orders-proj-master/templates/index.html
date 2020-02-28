@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8"/>
@@ -23,10 +23,10 @@
 
 
 <header>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">Система сопровождения <b>заказов</b></a>
+   <nav class="navbar navbar-light" style="background-color: #8ee28c;">
+        <a class="navbar-brand" href="#">Система сопровождения заказов</a>
         {% if user.is_authenticated %}
-            <div class='uname'>{{ request.user.username }} |</div>
+            <div class='uname'>{{ request.user.username }}, </div>
             <a href='{% url "logout" %}'> Logout</a>
         {% else %}
             <a href='{% url "login" %}'> Login</a>
@@ -57,39 +57,50 @@
 
 
 <div id='Order_list'>
-    <br>
-    <center><h2 style="color:#8ee28c;">Список товарных позиций</h2></center>
-    <center><input type="text" v-model="filter" placeholder="Поиск..."></center>
-    <br>
-    <hr>
 
-    <ul v-for="i in sortOptions" style="width: 500px;">
-        <a href="#" class="list-group-item list-group-item-action"> {% verbatim %}{{ i.name }} {% endverbatim %}</a>
+        <br>
+        <center><h2 style="color:#8ee28c;"><b>Список товарных позиций</b></h2></center>
+        <center><label for='search'>Поиск по товарам:</label></center>
+        <center><input type="text" v-model="filter" placeholder="Название товара..." id='search'></center>
+        <center><img :src="image_src" style="margin: 50px;"></center>
+        <br>
+        <hr>
 
-    </ul>
-    <hr>
-    <center>
-        <button type="submit" class="btn btn-primary" onclick="window.location.href = 'http://localhost:8000/login';">
-            Авторизоваться
-        </button>
-    </center>
-    <br>
+
+
+        <ul v-for="(product, index) in sortOptions" style="width: 500px;">
+            <a href="#" class="list-group-item list-group-item-action" v-on:click="showProduct(index)">
+                {% verbatim %}{{ product.name }} {% endverbatim %}</a>
+
+        </ul>
+
+        <hr>
+
+        <center>
+            <button type="submit" class="btn btn-success"
+                    onclick="window.location.href = 'http://localhost:8000/login';">
+                Авторизоваться
+            </button>
+        </center>
+        <br>
 
 
 </div>
-
 
 </body>
 
 
 <style>
+    body{
+        background-color: #f8f9fa!important;
+    }
     b {
         color: #8ee28c;
     }
 
     a {
         display: inline-block;
-        color: #8ee28c;
+        color: black;
         line-height: 1;
         text-decoration: none;
         cursor: pointer;
@@ -102,7 +113,7 @@
         height: 2px;
         width: 0%;
         -webkit-transition: width .3s ease-in-out;
-        -moz--transition: width .3s ease-in-out;
+
         transition: width .3s ease-in-out;
     }
 
@@ -113,7 +124,10 @@
 
     .uname {
         margin-left: auto;
+
     }
+
+
 
 
 </style>
@@ -128,8 +142,16 @@
         data: {
             products_data: [],
             filter: '',
+            image_src: ''
+        },
+        methods: {
+            products_detailed: function (event) {
 
-
+            },
+            showProduct: function (index) {
+                this.image_src = this.products_data[index]['image'];
+                console.log(index);
+            }
         },
         computed: {
             sortOptions() {
@@ -138,7 +160,8 @@
                 } else {
                     return this.products_data;
                 }
-            }
+            },
+
         },
         mounted() {
             axios

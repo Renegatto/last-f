@@ -16,11 +16,11 @@
 <header>
 
 
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="http://localhost:8000/" style="color: #8ee28c">Страница заказа</a>
+    <nav class="navbar navbar-light" style="background-color: #8ee28c;">
+        <a class="navbar-brand" href="http://localhost:8000/">Страница заказа</a>
 
         {% if user.is_authenticated %}
-            <div class='uname'>{{ request.user.username }}, </div>
+            <div class='uname'>{{ request.user.username }},</div>
             <a href='{% url "logout" %}'> Logout</a>
         {% else %}
             <a href='{% url "login" %}'> Login</a>
@@ -31,15 +31,14 @@
 </header>
 
 
-
 <div id="app">
 
     <div id='buttons' align='center' style='margin:20px;'>
 
-        <button type="submit" class="btn btn-primary">Новый</button>
-        <button type="submit" class="btn btn-primary">Подготовка КП</button>
-        <button type="submit" class="btn btn-primary">КП</button>
-        <button type="submit" class="btn btn-primary">Заказ</button>
+        <button type="submit" class="btn btn-success">Новый</button>
+        <button type="submit" class="btn btn-success">Подготовка КП</button>
+        <button type="submit" class="btn btn-success">КП</button>
+        <button type="submit" class="btn btn-success">Заказ</button>
     </div>
 
 
@@ -67,7 +66,7 @@
 
         </tbody>
     </table>
-    <button v-on:click="redirect" class="btn btn-primary">Создать заказ</button>
+    <button v-on:click="redirect" class="btn btn-success">Создать заказ</button>
 </div>
 
 
@@ -117,6 +116,11 @@
 
     .uname {
         margin-left: auto;
+
+    }
+
+      body{
+        background-color: #f8f9fa!important;
     }
 
 

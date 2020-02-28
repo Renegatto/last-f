@@ -18,8 +18,8 @@
 </head>
 
 <header>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#" style=" color: #8ee28c;">Страница заказа</a>
+    <nav class="navbar navbar-light" style="background-color: #8ee28c;">
+        <a class="navbar-brand" href="#" >Страница заказа</a>
 
         {% if user.is_authenticated %}
             <div class='uname' style=" margin-left: auto;">{{ request.user.username }}, </div>
@@ -37,7 +37,7 @@
     <div class='o_fields' align="center" >
         <fieldset>
             <b>
-                <legend style='padding:5px; color: #8ee28c;'>Поля заказа</legend>
+                <legend style='padding:5px; margin:5px; color: #8ee28c;'>Поля заказа</legend>
             </b>
 
             <label>Номер заказа:<input type="text" required id="order_number"></label>
@@ -64,7 +64,7 @@
             <br>
             <label>Дата/Время изменения: <input id="datetimepicker1"/></label>
             <hr>
-            <input value="Отправить" type="submit" id="sendForm" class="btn btn-primary"
+            <input value="Отправить" type="submit" id="sendForm" class="btn btn-success"
                    action="http://localhost:8000/api/order/"
                    method="POST">
             <hr>
@@ -134,6 +134,10 @@
     label {
         margin: 10px;
 
+    }
+
+      body{
+        background-color: #f8f9fa!important;
     }
 
 

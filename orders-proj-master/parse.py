@@ -1,17 +1,17 @@
-from core import settings
-from orders.models import Products
-import django
-from bs4 import BeautifulSoup
-import requests
-import os
 
+import requests
+from bs4 import BeautifulSoup
+
+import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 
-
+import django
 django.setup()
 
 products = []
 product = {}
+
+from orders.models import Products
 
 
 def get_soup():
@@ -21,7 +21,6 @@ def get_soup():
 
 
 soup = BeautifulSoup(get_soup(), 'html.parser')
-
 elems = soup.find_all("div", {'class': 'prod prod--toggle'})
 
 
@@ -32,13 +31,13 @@ for elem in elems:
     product['description'] = elem.find(
         "p", {'class': 'prod__descr'}).get_text()
     products.append(product)
-    # print(products[0])
+    print(products[0])
+    for p in products[0]:
+        pr = Products.objects.create()
+        pr.name = product['name']
+        pr.image = product['image']
+        pr.description = product['description']
+        pr.price = product['price']
+        pr.save()
 
 
-for p in products[0]:
-    pr = Products.objects.create()
-    pr.name = product['name']
-    pr.image = product['image']
-    pr.description = product['description']
-    pr.price = product['price']
-    pr.save()

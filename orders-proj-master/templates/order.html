@@ -19,10 +19,10 @@
 
 <header>
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">Страница заказа</a>
+        <a class="navbar-brand" href="#" style=" color: #8ee28c;">Страница заказа</a>
 
         {% if user.is_authenticated %}
-            <div class='uname'>{{ request.user.username }} |</div>
+            <div class='uname' style=" margin-left: auto;">{{ request.user.username }}, </div>
             <a href='{% url "logout" %}'> Logout</a>
         {% else %}
             <a href='{% url "login" %}'> Login</a>
@@ -34,10 +34,10 @@
 
 <body>
 <center>
-    <div class='o_fields' align="center">
+    <div class='o_fields' align="center" >
         <fieldset>
             <b>
-                <legend style='padding:5px'>Поля заказа</legend>
+                <legend style='padding:5px; color: #8ee28c;'>Поля заказа</legend>
             </b>
 
             <label>Номер заказа:<input type="text" required id="order_number"></label>
@@ -133,6 +133,7 @@
 
     label {
         margin: 10px;
+
     }
 
 

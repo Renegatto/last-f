@@ -23,8 +23,8 @@
 
 
 <header>
-
     <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Система сопровождения <b>заказов</b></a>
         {% if user.is_authenticated %}
             <div class='uname'>{{ request.user.username }} |</div>
             <a href='{% url "logout" %}'> Logout</a>
@@ -32,52 +32,48 @@
             <a href='{% url "login" %}'> Login</a>
         {% endif %}
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Главная</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="http://localhost:8000/orders_list">Список заказов</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">О нас</a>
-            </li>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000/orders_list">Список заказов</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">О нас</a>
+                </li>
 
-        </ul>
+            </ul>
 
-
+        </div>
     </nav>
 
 </header>
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div id='Order_list'>
+    <br>
+    <center><h2 style="color:#8ee28c;">Список товарных позиций</h2></center>
+    <center><input type="text" v-model="filter" placeholder="Поиск..."></center>
+    <br>
+    <hr>
 
+    <ul v-for="i in sortOptions" style="width: 500px;">
+        <a href="#" class="list-group-item list-group-item-action"> {% verbatim %}{{ i.name }} {% endverbatim %}</a>
 
-    </div>
-</nav>
-
-
-<div class='cblock'>
-    <h1 align='center'>Система сопровождения <b>заказов</b></h1>
+    </ul>
+    <hr>
     <center>
         <button type="submit" class="btn btn-primary" onclick="window.location.href = 'http://localhost:8000/login';">
             Авторизоваться
         </button>
-</div>
-
-
-<div id='Order_list'>
-    <h2>Список товарных позиций</h2>
-    <hr>
-    <ul v-for="i in products_data">
-        <a href="#" class="list-group-item list-group-item-action"> {% verbatim %}{{ i.name }} {% endverbatim %}</a>
-    </ul>
+    </center>
+    <br>
 
 
 </div>
@@ -87,26 +83,20 @@
 
 
 <style>
-    .cblock {
-        margin: 30px;
-        padding: 30px;
-    }
-
     b {
-        color: #f39f18;
+        color: #8ee28c;
     }
-
 
     a {
         display: inline-block;
-        color: #007bff;
+        color: #8ee28c;
         line-height: 1;
         text-decoration: none;
         cursor: pointer;
     }
 
     a:after {
-        background-color: #007bff;
+        background-color: #800080;
         display: block;
         content: "";
         height: 2px;
@@ -139,8 +129,17 @@
             products_data: [],
             filter: '',
 
-        },
 
+        },
+        computed: {
+            sortOptions() {
+                if (this.filter !== '') {
+                    return this.products_data.filter(data => data.name.toLowerCase().includes(this.filter));
+                } else {
+                    return this.products_data;
+                }
+            }
+        },
         mounted() {
             axios
                 .get('http://localhost:8000/api/products/?format=json')

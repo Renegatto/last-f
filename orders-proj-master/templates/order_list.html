@@ -2,108 +2,139 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Список заказов</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png"
-          type="image/x-icon">
+        type="image/x-icon">
 </head>
 
 <body>
 
-<header>
+    <header>
 
 
-    <nav class="navbar navbar-light" style="background-color: #8ee28c;">
-        <a class="navbar-brand" href="http://localhost:8000/">Страница заказа</a>
+        <nav class="navbar navbar-light" style="background-color: #8ee28c;">
+            <a class="navbar-brand" href="http://localhost:8000/">Страница заказа</a>
 
-        {% if user.is_authenticated %}
+            {% if user.is_authenticated %}
             <div class='uname'>{{ request.user.username }},</div>
             <a href='{% url "logout" %}'> Logout</a>
-        {% else %}
+            {% else %}
             <a href='{% url "login" %}'> Login</a>
-        {% endif %}
+            {% endif %}
 
-    </nav>
+        </nav>
 
-</header>
+    </header>
 
 
-<div id="app">
+    <div id="app">
 
-    <div id='buttons' align='center' style='margin:20px;'>
+        <div id='buttons' align='center' style='margin:20px;'>
 
-        <button type="submit"  class="btn btn-success"
-                :class="{ 'btn-danger': button_toggle }"
+            <button type="submit" class="btn btn-success" :class="{ 'btn-danger': button_toggle }"
                 v-on:click="button_toggle=!button_toggle">Новый</button>
+            <button type="submit" class="btn btn-success">Подготовка КП</button>
+            <button type="submit" class="btn btn-success">КП</button>
+            <button type="submit" class="btn btn-success">Заказ</button>
+            <subscript-button></subscript-button>
+
+        </div>
 
 
-        <button type="submit" class="btn btn-success">Подготовка КП</button>
-        <button type="submit" class="btn btn-success">КП</button>
-        <button type="submit" class="btn btn-success">Заказ</button>
+        <input type="text" v-model="filter" placeholder="Поиск...">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">номер п/п</th>
+                    <th scope="col">номер заказа</th>
+                    <th scope="col">клиент</th>
+                    <th scope="col">менеджер</th>
+                    <th scope="col">статус заказа</th>
+                    <th scope="col">сумма заказа(usd)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="i in sortOptions">
+                    <th scope="row">1</th>
+                    <td>{% verbatim %}{{ i.id }}{% endverbatim %}</td>
+                    <td>{% verbatim %}{{ i.client }}{% endverbatim %}</td>
+                    <td>{% verbatim %}{{ i.author }}{% endverbatim %}</td>
+                    <td>{% verbatim %}{{ i.order_status }}{% endverbatim %}</td>
+                    <td>{% verbatim %}{{ i.order_price }}{% endverbatim %}</td>
+                </tr>
+
+            </tbody>
+        </table>
 
     </div>
 
 
-    <input type="text" v-model="filter" placeholder="Поиск...">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th scope="col">номер п/п</th>
-            <th scope="col">номер заказа</th>
-            <th scope="col">клиент</th>
-            <th scope="col">менеджер</th>
-            <th scope="col">статус заказа</th>
-            <th scope="col">сумма заказа(usd)</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="i in sortOptions">
-            <th scope="row">1</th>
-            <td>{% verbatim %}{{ i.id }}{% endverbatim %}</td>
-            <td>{% verbatim %}{{ i.client }}{% endverbatim %}</td>
-            <td>{% verbatim %}{{ i.author }}{% endverbatim %}</td>
-            <td>{% verbatim %}{{ i.order_status }}{% endverbatim %}</td>
-            <td>{% verbatim %}{{ i.order_price }}{% endverbatim %}</td>
-        </tr>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript">
 
-        </tbody>
-    </table>
-
-</div>
-
-
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script type="text/javascript">
-    var app = new Vue({
-        el: '#app',
-        data: {
-            orders_data: [],
-            filter: '',
-            button_toggle: false,
-        },
-
-        computed: {
-            sortOptions() {
-                if (this.filter !== '') {
-                    return this.orders_data.filter(data => data.author.toLowerCase().includes(this.filter));
-                } else {
-                    return this.orders_data;
+        Vue.component('subscript-button', {
+            data: function () {
+                return {
+                    state: false,
+                    vals: { 'btn btn-secondary': state }
                 }
+            },
+            methods: {
+                getBtn(b) {
+                    console.log('foock')
+
+                    if (b) {
+                        return "btn btn-success";
+                    } else {
+                        return "btn btn-secondary";
+                    };
+                },
+                getClr(b) {
+
+                    if (b) {
+                        return "color #ff0000";
+                    } else {
+                        return "color #ffffff";
+                    };
+
+                }
+            },
+            template: '<button type="submit" v-on:click = "state=true"> Новый </button> '
+        });
+
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                orders_data: [],
+                filter: '',
+                button_toggle: false,
+            },
+
+            computed: {
+                sortOptions() {
+                    if (this.filter !== '') {
+                        return this.orders_data.filter(data => data.author.toLowerCase().includes(this.filter));
+                    } else {
+                        return this.orders_data;
+                    }
+                }
+            },
+
+            mounted() {
+                axios
+                    .get('http://localhost:8000/api/order/?format=json')
+                    .then(response => (this.orders_data = response.data));
+
             }
-        },
-        mounted() {
-            axios
-                .get('http://localhost:8000/api/order/?format=json')
-                .then(response => (this.orders_data = response.data));
+        });
 
-        }
-    });
-
-</script>
+    </script>
 </body>
 
 <style>
@@ -121,18 +152,9 @@
 
     }
 
-      body{
-        background-color: #f8f9fa!important;
+    body {
+        background-color: #f8f9fa !important;
     }
-
-
 </style>
 
 </html>
-
-
-
-
-
-
-

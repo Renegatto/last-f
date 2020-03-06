@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect
 from orders.models import Order, Users
 
 from django.contrib.auth.decorators import login_required
-
+from orders.forms import OrderForm
 
 def index(request):
     return render(request, "index.html")
@@ -26,9 +26,23 @@ def orders_list_page(request):
     return render(request, "order_list.html", context=data)
 
 
+# доделать тут!
 @login_required
 def order_page(request):
-    return render(request, "order.html")
+    form = OrderForm(request.POST)
+    if form.is_valid():
+        order = form.save(commit=False)
+        order.id = request.id
+        order.author = request.author
+        order.number = request.number
+        order.order_price = request.order_price
+        order.order_comments = request.order_comments
+        order.date_and_time_of_order = timezone.now()
+        order.order_status = request.order_status
+        order.products_list = request.products_list
+        order.client = request.client
+        order.save()
+    return render(request, "order.html",  {'form': form})
 
 
 @csrf_exempt

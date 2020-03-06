@@ -2,18 +2,16 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-NEW = 'НОВЫЙ'
-PREP_KP = 'ПОДГОТОВКА_КП'
-KP = 'КП'
-ORDER = 'ЗАКАЗ'
-UNKNOWN = 'UNKNOWN'
+PAID = 'ОПЛАЧЕНО'
+UNPAID = 'НЕОПЛАЧЕНО'
+DELIVERY = 'В ДОСТАВКЕ'
+
 
 STATUS_CHOICES = (
-    (NEW, 'НОВЫЙ'),
-    (PREP_KP, 'ПОДГОТОВКА_КП'),
-    (KP, 'КП'),
-    (ORDER, 'ЗАКАЗ'),
-    (UNKNOWN, 'UNKNOWN'),
+    (PAID, 'ОПЛАЧЕНО'),
+    (UNPAID, 'НЕОПЛАЧЕНО'),
+    (DELIVERY, 'В ДОСТАВКЕ'),
+
 )
 
 
@@ -43,16 +41,12 @@ class Order(models.Model):
         max_digits=10, decimal_places=2, default=0, verbose_name='Сумма заказа')
     order_comments = models.TextField(
         blank=True, null=True, default=None, verbose_name='Комментарий к заказу')
-    order_status = models.CharField(max_length=50, choices=[('SN', 'Status new'), ('PK', 'Prepare kp'), ('KP', 'Kp'),
-                                                            ('OR', 'Order'), ]
-                                    )
     date_and_time_of_order = models.DateTimeField(
         auto_now_add=True, auto_now=False, verbose_name='Создан')
     date_and_time_of_change_of_order = models.DateTimeField(
-        auto_now_add=False, auto_now=True, verbose_name='Обновлён')
-
+        auto_now_add=False, auto_now=False, verbose_name='Обновлён')
     order_status = models.CharField(
-        max_length=50, default=UNKNOWN, choices=STATUS_CHOICES)
+        max_length=50, default=UNPAID, choices=STATUS_CHOICES)
 
     class Meta:
         verbose_name = 'Заказ'

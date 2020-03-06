@@ -19,10 +19,9 @@
 {% block body %}
     <div id="app">
         <div id='buttons' align='center' style='margin:20px;'>
-            <subscript-button btn_title="Новый" color="btn btn-primary"></subscript-button>
-            <subscript-button btn_title="Подготовка" color="btn btn-danger"></subscript-button>
-            <subscript-button btn_title="КП" color="btn btn-secondary"></subscript-button>
-            <subscript-button btn_title="Заказ" color="btn btn-info"></subscript-button>
+            <subscript-button btn_title="ОПЛАЧЕНО" color="btn btn-primary"></subscript-button>
+            <subscript-button btn_title="НЕОПЛАЧЕНО" color="btn btn-danger"></subscript-button>
+            <subscript-button btn_title="В ДОСТАВКЕ" color="btn btn-secondary"></subscript-button>
         </div>
 
         <input type="text" v-model="filter" placeholder="Поиск...">
@@ -41,8 +40,8 @@
                 <tr v-for="i in sortOptions">
                     <th scope="row">1</th>
                     <td>{% verbatim %}{{ i.id }}{% endverbatim %}</td>
+                     <td>{% verbatim %}{{ i.author }}{% endverbatim %}</td>
                     <td>{% verbatim %}{{ i.client }}{% endverbatim %}</td>
-                    <td>{% verbatim %}{{ i.author }}{% endverbatim %}</td>
                     <td>{% verbatim %}{{ i.order_status }}{% endverbatim %}</td>
                     <td>{% verbatim %}{{ i.order_price }}{% endverbatim %}</td>
                 </tr>

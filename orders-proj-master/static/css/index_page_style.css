@@ -1,5 +1,6 @@
 body {
-    background-color: #f8f9fa !important;
+ background-color: #f8f9fa !important;
+
 }
 
 b {
@@ -35,6 +36,17 @@ a:focus:after {
 
 }
 
-.Order_list ul {
-   right: 100px;
+.Order_list, p {
+   margin-right: 100px;
+   text-align: center;
 }
+
+.Order_list, img, ul, label, input{
+    margin-right: auto;
+    text-align: center;
+    margin-top: auto;
+    display: block;
+    margin: auto;
+    margin-right: auto;
+}
+

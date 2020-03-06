@@ -50,12 +50,6 @@ MIDDLEWARE = [
 ]
 
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#     'PAGE_SIZE': 100
-# }
-
-
 ROOT_URLCONF = 'core.urls'
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 TEMPLATES = [

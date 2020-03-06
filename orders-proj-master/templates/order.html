@@ -1,45 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+{% load static %}
+{% block head %}
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Страница заказа</title>
     <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png"
           type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
-
-
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/order_page_style.css' %}">
+
+        {% block header %}
+            <nav class="navbar navbar-light" style="background-color: #8ee28c;">
+                <a class="navbar-brand" href="#">Страница заказа</a>
+
+                {% if user.is_authenticated %}
+                    <div class='uname' style=" margin-left: auto;">{{ request.user.username }},</div>
+                    <a href='{% url "logout" %}'> Logout</a>
+                {% else %}
+                    <a href='{% url "login" %}'> Login</a>
+                {% endif %}
+            </nav>
+        {% endblock %}
+{% endblock %}
 
 
-</head>
-
-<header>
-    <nav class="navbar navbar-light" style="background-color: #8ee28c;">
-        <a class="navbar-brand" href="#">Страница заказа</a>
-
-        {% if user.is_authenticated %}
-            <div class='uname' style=" margin-left: auto;">{{ request.user.username }},</div>
-            <a href='{% url "logout" %}'> Logout</a>
-        {% else %}
-            <a href='{% url "login" %}'> Login</a>
-        {% endif %}
-
-    </nav>
-
-</header>
-
-<body>
-<center>
+{% block body %}
     <div class='o_fields' align="center">
         <fieldset>
             <b>
                 <legend style='padding:5px; margin:5px; color: #8ee28c;'>Поля заказа</legend>
             </b>
-
             <label>Номер заказа:<input type="text" required id="order_number"></label>
             <br>
             <label>Сумма заказа:<input type="text" required id="price_of_order"></label>
@@ -49,16 +40,14 @@
             <label>Менеджер:<input type="text" required id="order_manager"></label>
             <br>
             <label for="FormControlSelect1" id='order_status_select'>Статус заказа:</label>
-            <div class="col" width='250px;'>
-                <select class="form-control" id="FormControlSelect1">
+            <div class="col">
+                <select class="form-control" id="FormControlSelect1" style="width:250px;">
                     <option>Новый</option>
                     <option>Подготовка КП</option>
                     <option>КП</option>
                     <option>Заказ</option>
                 </select>
             </div>
-
-
             <br>
             <label>Автор:<input type="text" required id="order_author"></label>
             <br>
@@ -70,7 +59,6 @@
                    action="http://localhost:8000/api/order/"
                    method="POST">
             <hr>
-
         </fieldset>
 
 
@@ -78,15 +66,7 @@
                 integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
                 crossorigin="anonymous"></script>
 
-
         <script type='text/javascript'>
-
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-                $('#datetimepicker2').datetimepicker();
-            });
-
-
             $(document).ready(function () {
                 $("#sendForm").click(function (event) {
                     let data = {
@@ -99,7 +79,6 @@
                         'datetimepicker1': $('#datetimepicker1').val(),
                     };
 
-
                     $.ajax({
                         type: 'POST',
                         url: 'http://localhost:8000/api/order/',
@@ -108,45 +87,8 @@
 
                     })
                 });
-
-
             });
-
-
         </script>
     </div>
-</center>
 
-
-</body>
-
-<style>
-    #FormControlSelect1 {
-        width: 300px;
-
-    }
-
-    h3 {
-        margin: 10px;
-    }
-
-    .o_fields {
-        width: 500px;
-        margin: 10px;
-        border: groove;
-    }
-
-    label {
-        margin: 10px;
-
-    }
-
-    body {
-        background-color: #f8f9fa !important;
-    }
-
-
-</style>
-
-
-</html>
+{% endblock %}

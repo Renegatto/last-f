@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+{% load static %}
+{% block head %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Список заказов</title>
@@ -9,34 +7,23 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="shortcut icon" href="http://www.chetrachap.com/wp-content/uploads/2017/12/Logo-Growth-Profile-1500.png"
         type="image/x-icon">
-</head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/order_list_style.css' %}">
 
-<body>
-
-    <header>
-
-
+    {% block header %}
         <nav class="navbar navbar-light" style="background-color: #8ee28c;">
             <a class="navbar-brand" href="http://localhost:8000/">Страница заказа</a>
-
-
-
         </nav>
+    {% endblock %}
+{% endblock %}
 
-    </header>
-
-
+{% block body %}
     <div id="app">
-
         <div id='buttons' align='center' style='margin:20px;'>
-
             <subscript-button btn_title="Новый" color="btn btn-primary"></subscript-button>
             <subscript-button btn_title="Подготовка" color="btn btn-danger"></subscript-button>
             <subscript-button btn_title="КП" color="btn btn-secondary"></subscript-button>
             <subscript-button btn_title="Заказ" color="btn btn-info"></subscript-button>
-
         </div>
-
 
         <input type="text" v-model="filter" placeholder="Поиск...">
         <table class="table table-bordered">
@@ -51,7 +38,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 <tr v-for="i in sortOptions">
                     <th scope="row">1</th>
                     <td>{% verbatim %}{{ i.id }}{% endverbatim %}</td>
@@ -60,10 +46,8 @@
                     <td>{% verbatim %}{{ i.order_status }}{% endverbatim %}</td>
                     <td>{% verbatim %}{{ i.order_price }}{% endverbatim %}</td>
                 </tr>
-
             </tbody>
         </table>
-
     </div>
 
 
@@ -72,7 +56,6 @@
     <script type="text/javascript">
 
         var subscriptButton = {
-
             props: ['btn_title', 'color'],
             data: function () {
                 return {
@@ -97,9 +80,7 @@
                         v-on:click="buttonPressed()">
                         {% verbatim %}{{btn_title}}{% endverbatim %}
                         </button>`
-
         };
-
 
         var app = new Vue({
             el: '#app',
@@ -129,28 +110,5 @@
 
             }
         });
-
     </script>
-</body>
-
-<style>
-    #app {
-        margin: 30px;
-        padding: 30px;
-    }
-
-    .btn {
-        margin-top: 100px;
-    }
-
-    .uname {
-        margin-left: auto;
-
-    }
-
-    body {
-        background-color: #f8f9fa !important;
-    }
-</style>
-
-</html>
+{% endblock %}

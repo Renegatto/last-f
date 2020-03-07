@@ -49,29 +49,9 @@
     <h2 style="color:#8ee28c; margin-right: auto;"><b>Список товарных позиций</b></h2>
 
     <div id='Order_list'>
-        <br>
-        <img :src="image_src">
-        <p> {% verbatim %} Наименование: {{ name }}{% endverbatim %} </p>
-        <p> {% verbatim %} Описание: {{ description }}{% endverbatim %} </p>
-        <p> {% verbatim %} Цена(BYN): {{ price }}{% endverbatim %} </p>
-        <br>
-        <hr>
-        <label for='search' style='display: table;'>Поиск по товарам:</label>
-        <input type="text" v-model="filter" placeholder="Название товара..." id='search'>
-        <hr>
-        <ul v-for="(product, index) in sortOptions" style="width: 500px;">
-            <a href="#" class="list-group-item list-group-item-action" v-on:click="showProduct(index)">
-                {% verbatim %}{{ product.name }} {% endverbatim %}</a>
-        </ul>
 
-        <div>
-            <button style="  display:block; margin: auto;" class="btn btn-warning" @click="load_more" >Показать ещё</button>
-        </div>
-        <button type="submit" v-on:click="redirect" class="btn btn-success" style="position: relative;
-left: 50%;
-transform: translate(-50%, 0); ">
-            Создать заказ
-        </button>
+        <order-list></order-list>
+        <create-order-button></create-order-button>
 
         <hr>
         <br>
@@ -82,8 +62,28 @@ transform: translate(-50%, 0); ">
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-    var app = new Vue({
-        el: '#Order_list',
+    var order_list_template = `<div>
+            <br>
+            <img :src="image_src">
+            <p> {% verbatim %} Наименование: {{ name }}{% endverbatim %} </p>
+            <p> {% verbatim %} Описание: {{ description }}{% endverbatim %} </p>
+            <p> {% verbatim %} Цена(BYN): {{ price }}{% endverbatim %} </p>
+            <br>
+            <hr>
+            <label for='search' style='display: table;'>Поиск по товарам:</label>
+            <input type="text" v-model="filter" placeholder="Название товара..." id='search'>
+            <hr>
+            <ul v-for="(product, index) in sortOptions" style="width: 500px;">
+                <a href="#" class="list-group-item list-group-item-action" v-on:click="showProduct(index)">
+                    {% verbatim %}{{ product.name }} {% endverbatim %}</a>
+            </ul>
+
+            <div>
+                <button style="  display:block; margin: auto;" class="btn btn-warning" @click="load_more" >Показать ещё</button>
+            </div>
+        </div>
+    `
+    var order_list = {
         data: {
             url: 'http://localhost:8000/api/products/?format=json',
             products_data: [],
@@ -113,10 +113,6 @@ transform: translate(-50%, 0); ">
                 this.name = this.items[index]['name'];
                 console.log(index);
             },
-            redirect: function (onclick) {
-                window.location.href = 'http://localhost:8000/orders_list/order'
-            },
-
             callback: function (page) {
                 console.log(`Page ${page} was selected. Do something about it`);
             },
@@ -143,7 +139,29 @@ transform: translate(-50%, 0); ">
         },
         mounted() {
             this.get_data(this.url);
+        },
+        template : order_list_template,
+    }
+    var create_order_button = {
+        methods : {
+            redirect: function (onclick) {
+                            window.location.href = 'http://localhost:8000/orders_list/order'
+            },
+        },
+        template : `<button type="submit" v-on:click="redirect" class="btn btn-success" style="position: relative;
+left: 50%;
+transform: translate(-50%, 0); ">
+            Создать заказ
+        </button>`
+
+    }
+    var app = new Vue({
+        el: '#Order_list',
+        components:{
+            'order-list':order_list,
+            'create-order-button':create_order_button,
         }
+
     });
 
 </script>
